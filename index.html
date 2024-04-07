@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insert Data</title>
+</head>
+<body>
+    <h2>Insert Data</h2>
+    <form id="myForm">
+        Frugt: <input type="text" name="frugt"><br>
+        Dyr: <input type="text" name="dyr"><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <div id="response"></div>
+
+    <script>
+        document.getElementById("myForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+            fetch('/insert', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.success) {
+                    document.getElementById('response').innerText = 'Data inserted successfully!';
+                } else {
+                    document.getElementById('response').innerText = 'Failed to insert data.';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
+
